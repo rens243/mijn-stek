@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Services\TrashVaccineService;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
@@ -24,7 +25,15 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        // dependency injection? idk.
+        // Send vaccine reminder
+        $trashVaccineService = new TrashVaccineService();
+        $schedule
+            ->call(fn() =>
+                $trashVaccineService->emailAvailableVaccineLocations()
+            )->everyMinute()
+            ->between('7:51', '17:00')
+            ->days([1,2,3,4,5,6]); // No sundays
     }
 
     /**
