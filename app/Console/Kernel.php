@@ -32,7 +32,7 @@ class Kernel extends ConsoleKernel
             ->call(fn() =>
                 $trashVaccineService->emailAvailableVaccineLocations()
             )->everyMinute()
-            ->between('7:51', '17:00')
+            ->between('6:00', '20:00')
             ->days([1,2,3,4,5,6]); // No sundays
     }
 
