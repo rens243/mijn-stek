@@ -13,7 +13,8 @@
     export let id = title
     export let titleColorFrom = 'from-red-600'
     export let titleColorTo = 'to-red-600'
-    export let color = 'bg-gray-300'
+    export let color = 'bg-gradient-to-t from-gray-200 to-gray-100'
+
     export let status = 'open' // collapsed, open, minimized
     export let isScrollable = false
     export let width = null
@@ -26,10 +27,10 @@
     // Set isActive and put in store
     export let isActive = false
     if (isActive) $activeWindow = id
-    $: isActive = $activeWindow == id 
+    $: isActive = $activeWindow == id
 
     // Set magic numbers and variables....
-    let windowElement 
+    let windowElement
     const minWidth = 150
     const minHeight = 36
 
@@ -38,13 +39,13 @@
     // Smooth height change
     let tweenedHeight = tweened(height, {duration: 200});
     $: $tweenedHeight = height
-    // setTimeout(() => height = windowElement.offsetHeight, 1000) // TODO: ewwww
+    setTimeout(() => height = windowElement.offsetHeight, 1000) // TODO: ewwww
 
     // Toggle collapsed
     let lastOpenHeight = null
     const toggleCollapsed = () => {
         if (status == 'open') collapse()
-        else if (status == 'collapsed') open()  
+        else if (status == 'collapsed') open()
     }
     const open = () => {
         height = lastOpenHeight
@@ -60,12 +61,12 @@
 
 
 <div
-    class="absolute font-mono border-ridge border-4 {color} shadow-xl overflow-hidden flex flex-col text-left" 
+    class="absolute font-mono border-ridge border-4 {color} shadow-xl overflow-hidden flex flex-col text-left"
     class:resize="{status !== 'collapsed' && isScrollable}"
-    bind:this={windowElement} 
+    bind:this={windowElement}
     transition:slide
     style="min-height: {minHeight || height}px; min-width: {minWidth || width}px; width: {width}px; height: {$tweenedHeight}px; top: {y}px; left: {x}px; z-index: {isActive ? 10 : 1};">
-    <div 
+    <div
         class="select-none bg-gradient-to-r {titleColorFrom} {titleColorTo} text-black pl-2 pr-1 flex flex-nowrap flex-row items-center cursor-move"
         on:mousedown="{(e) => dispatch('dragStart', {id: id, mouseEvent: e})}"
     >
@@ -89,11 +90,11 @@
         {#if (md)}
             <MdHtml file="{md}"></MdHtml>
         {/if}
-        
+
         {#if (content)}
             {@html content}
         {/if}
-        
+
         <slot></slot>
     </div>
 </div>

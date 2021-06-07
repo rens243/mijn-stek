@@ -1,6 +1,6 @@
 <script>
 	import Tailwindcss from './Tailwindcss.svelte'
-	
+
 	import Router from 'svelte-spa-router'
 	import routes from './routes.js'
 
@@ -13,13 +13,13 @@
 <Tailwindcss />
 
 <!-- Window area in here -->
-<section class="fixed top-0 left-0 right-0 bottom-0">	
+<section class="fixed top-0 left-0 right-0 bottom-0">
 	<OldWindowManager></OldWindowManager>
 	<Router {routes}></Router>
 </section>
 
 <!-- bottom bar -->
-<section class="fixed bottom-0 left-0 right-0 h-10 bg-gray-300 z-50 font-mono border-2 border-ridge flex justify-center align-middle"> 
+<section class="fixed bottom-0 left-0 right-0 h-10 bg-gradient-to-t from-gray-200 to-gray-100 z-50 font-mono border-2 border-ridge flex justify-center align-middle">
 	<OldButton on:click="{() => push('/')}" class="{`flex px-2 justify-center items-center ${$location == '/' ? 'bg-gray-400' : ''}`}">
 		Home
 	</OldButton>
@@ -38,5 +38,4 @@
 	:global(body) {
 		overflow: hidden;
 	}
-
 </style>

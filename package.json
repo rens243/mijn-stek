@@ -1,11 +1,14 @@
 {
     "private": true,
     "scripts": {
+        "cleanup": "rm -rf public/js",
         "dev": "npm run development",
         "development": "mix",
         "watch": "mix watch",
         "watch-poll": "mix watch -- --watch-options-poll=1000",
         "hot": "mix watch --hot",
+        "predev": "npm run cleanup",
+        "preprod": "npm run cleanup",
         "prod": "npm run production",
         "production": "mix --production"
     },

@@ -9,28 +9,63 @@
 	let bgPosX = 0;
 	let bgPosY = 0;
 
-	// Dragging logic	
+	// Helper function to move windows
+    const moveWindows = (dX, dY) => {
+        // Move windows
+        $windowStore = windowStoreMap((oldWindow) => {
+            oldWindow.x = oldWindow.x + dX
+            oldWindow.y =  oldWindow.y + dY
+            return oldWindow
+        })
+    }
+
+    // Helper function to move background
+    const moveBackground = (dX, dY) => {
+        bgPosX = bgPosX + dX
+        bgPosY = bgPosY + dY
+    }
+
+	// Dragging logic
 	let cursor = 'grab'
     let dragActive = false
     const dragStart = (e) => {
 		cursor = 'grabbing'
-        dragActive = true	
+        dragActive = true
     }
     const dragMove = (e) => {
         if (!dragActive) return
-
-		// Move windows
-		$windowStore = windowStoreMap((oldWindow) => {
-			oldWindow.x = oldWindow.x + e.movementX
-			oldWindow.y =  oldWindow.y + e.movementY
-			return oldWindow
-		})
-		
-		// Move background
-		bgPosX = bgPosX + e.movementX
-		bgPosY = bgPosY + e.movementY
+		moveWindows(e.movementX, e.movementY)
+        moveBackground(e.movementX, e.movementY)
     }
     const dragEnd = (e) => {
+        // if (dragActive) {
+        //     let dX = e.movementX
+        //     let dY = e.movementY
+        //
+        //     let start;
+        //
+        //     const inertiaDrag = (timestamp) => {
+        //         if (start === undefined) {
+        //             start = timestamp
+        //         }
+        //
+        //         const elapsed = timestamp - start
+        //
+        //         dX = dX - 1
+        //         dY = dY - 1
+        //
+        //         moveWindows(dX, dY)
+        //         moveBackground(dX, dY)
+        //
+        //         if (dX && dY ) { // Stop the animation after 2 seconds
+        //             window.requestAnimationFrame(inertiaDrag);
+        //         }
+        //     }
+        //
+        //     window.requestAnimationFrame(inertiaDrag)
+        // }
+
+	    // End drag
 		dragActive = false
 		cursor = 'grab'
 	}
@@ -39,9 +74,9 @@
 	let dragActiveWindow = null
 	const dragStartWindow = (e) => {
         if (dragActiveWindow == null) dragActiveWindow = e.detail.id
-        
+
 		// Set current active
-        $activeWindow = e.detail.id 
+        $activeWindow = e.detail.id
     }
     const dragMoveWindow = (e) => {
 		const currentId = e.detail.id
@@ -51,7 +86,7 @@
 			if (oldWindow.id == currentId) {
 				// Add position difference to window
 				oldWindow.y = oldWindow.y + e.detail.mouseEvent.movementY
-				oldWindow.x = oldWindow.x + e.detail.mouseEvent.movementX 
+				oldWindow.x = oldWindow.x + e.detail.mouseEvent.movementX
 			}
 			return oldWindow
 		})
@@ -71,24 +106,22 @@
 
 <!-- actual background -->
 <div id="main-bg" style="{`--bg-pos-y:${bgPosY};--bg-pos-x:${bgPosX}`}" class="cursor-{cursor}" on:mousedown="{dragStart}" on:mousemove="{dragMove}" on:mouseleave="{dragEnd}" on:mouseup="{dragEnd}">
-    <div class="absolute bg-red-400 top-1/2 left-1/2" style="width:2px; height:2px"></div>
 </div>
 
 <style>
 	:global(body) {
 		overflow: hidden;
+        background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
 	}
 
 	#main-bg {
 		width: 100%;
 		height: 100%;
-		background-color: #666699;
-		background-size: 600px 600px;
+		background-size: 200px 200px;
 		background-position-x: calc(var(--bg-pos-x, 0) * 1px);
 		background-position-y: calc(var(--bg-pos-y, 0) * 1px);
-		background-image:
-			linear-gradient(to right, #72008f 1px, transparent 1px),
-			linear-gradient(to bottom, #72008f 1px, transparent 1px);
+		background-image: url("/media/star.png");
+        filter: invert(54%) sepia(38%) saturate(6813%) hue-rotate(164deg) brightness(98%) contrast(103%);
 	}
 
 </style>
