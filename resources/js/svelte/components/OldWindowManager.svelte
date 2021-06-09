@@ -111,14 +111,16 @@
 <!-- all the fancy windows -->
 {#each $windowStore as oldWindow}
 	{#key oldWindow.id}
-		<OldWindow {...oldWindow} on:dragStart="{dragStartWindow}" on:dragMove="{dragMoveWindow}" on:dragEnd="{dragEndWindow}"></OldWindow>
+        <OldWindow {...oldWindow} on:dragStart="{dragStartWindow}" on:dragMove="{dragMoveWindow}"
+                   on:dragEnd="{dragEndWindow}"/>
 	{/key}
 {/each}
 
 
 <!-- actual background -->
-<div id="main-bg" style="{`--bg-pos-y:${bgPosY};--bg-pos-x:${bgPosX}`}" class="cursor-{cursor}" on:mousedown="{dragStart}" on:mousemove="{dragMove}" on:mouseleave="{dragEnd}" on:mouseup="{dragEnd}">
+<div id="main-bg" style="{`--bg-pos-y:${bgPosY};--bg-pos-x:${bgPosX}`}" class="cursor-{cursor}" on:mousedown="{dragStart}">
 </div>
+<svelte:body on:mousemove="{dragMove}" on:mouseleave="{dragEnd}" on:mouseup="{dragEnd}"/>
 
 <style>
 	:global(body) {
