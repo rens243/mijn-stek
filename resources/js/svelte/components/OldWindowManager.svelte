@@ -28,42 +28,54 @@
 	// Dragging logic
 	let cursor = 'grab'
     let dragActive = false
+
+    // Delta x and y when grabbing
+    let dX
+    let dY
+
     const dragStart = (e) => {
 		cursor = 'grabbing'
         dragActive = true
     }
     const dragMove = (e) => {
         if (!dragActive) return
-		moveWindows(e.movementX, e.movementY)
-        moveBackground(e.movementX, e.movementY)
+
+        dX = e.movementX
+        dY = e.movementY
+
+		moveWindows(dX, dY)
+        moveBackground(dX, dY)
     }
     const dragEnd = (e) => {
-        // if (dragActive) {
-        //     let dX = e.movementX
-        //     let dY = e.movementY
-        //
-        //     let start;
-        //
-        //     const inertiaDrag = (timestamp) => {
-        //         if (start === undefined) {
-        //             start = timestamp
-        //         }
-        //
-        //         const elapsed = timestamp - start
-        //
-        //         dX = dX - 1
-        //         dY = dY - 1
-        //
-        //         moveWindows(dX, dY)
-        //         moveBackground(dX, dY)
-        //
-        //         if (dX && dY ) { // Stop the animation after 2 seconds
-        //             window.requestAnimationFrame(inertiaDrag);
-        //         }
-        //     }
-        //
-        //     window.requestAnimationFrame(inertiaDrag)
-        // }
+        if (dragActive) {
+            // End drag
+            dragActive = false
+            cursor = 'grab'
+
+            const inertiaDrag = () => {
+                // Stop inertia if drag is enabled again
+                if (dragActive) return
+
+                // No delta, nothing to move
+                if (Math.abs(dX) < 0.1 && Math.abs(dY) < 0.1 ) {
+                    dX = null
+                    dY = null
+                    return
+                }
+
+                console.log(dX, dY);
+
+                dX = dX * 0.95
+                dY = dY * 0.95
+
+                moveWindows(dX, dY)
+                moveBackground(dX, dY)
+
+                window.requestAnimationFrame(inertiaDrag);
+            }
+
+            window.requestAnimationFrame(inertiaDrag)
+        }
 
 	    // End drag
 		dragActive = false
