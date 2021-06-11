@@ -148,10 +148,10 @@ ___CSS_LOADER_EXPORT___.push([module.id, "// extracted by mini-css-extract-plugi
 
 /***/ }),
 
-/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte":
-/*!*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte ***!
-  \*****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte":
+/*!****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /***/ ((module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3213,10 +3213,10 @@ var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js
 
 /***/ }),
 
-/***/ "./resources/js/svelte/components/OldWindowManager.svelte.51.css!=!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte":
-/*!************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./resources/js/svelte/components/OldWindowManager.svelte.51.css!=!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte ***!
-  \************************************************************************************************************************************************************************************************************************************************************/
+/***/ "./resources/js/svelte/components/OldWindowManager.svelte.2.css!=!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte":
+/*!**********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./resources/js/svelte/components/OldWindowManager.svelte.2.css!=!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte ***!
+  \**********************************************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3226,7 +3226,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! !../../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ "./node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js");
 /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_13_use_1_node_modules_svelte_loader_index_js_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_51_css_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!../../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!../../../../node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./OldWindowManager.svelte */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte");
+/* harmony import */ var _node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_13_use_1_node_modules_svelte_loader_index_js_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_2_css_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! !!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!../../../../node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!../../../../node_modules/mini-css-extract-plugin/dist/loader.js!../../../../node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!../../../../node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./OldWindowManager.svelte */ "./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[1]!./node_modules/postcss-loader/dist/cjs.js??ruleSet[1].rules[6].oneOf[1].use[2]!./node_modules/mini-css-extract-plugin/dist/loader.js!./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[13].use[1]!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte");
 
             
 
@@ -3235,11 +3235,11 @@ var options = {};
 options.insert = "head";
 options.singleton = false;
 
-var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_13_use_1_node_modules_svelte_loader_index_js_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_51_css_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_1__.default, options);
+var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_13_use_1_node_modules_svelte_loader_index_js_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_2_css_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_1__.default, options);
 
 
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_13_use_1_node_modules_svelte_loader_index_js_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_51_css_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_1_node_modules_postcss_loader_dist_cjs_js_ruleSet_1_rules_6_oneOf_1_use_2_node_modules_mini_css_extract_plugin_dist_loader_js_node_modules_css_loader_dist_cjs_js_ruleSet_1_rules_13_use_1_node_modules_svelte_loader_index_js_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_2_css_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_1__.default.locals || {});
 
 /***/ }),
 
@@ -5291,7 +5291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var svelte_internal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! svelte/internal */ "./node_modules/svelte/internal/index.mjs");
 /* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store */ "./resources/js/svelte/store.js");
 /* harmony import */ var _OldWindow_svelte__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./OldWindow.svelte */ "./resources/js/svelte/components/OldWindow.svelte");
-/* harmony import */ var _var_www_html_resources_js_svelte_components_OldWindowManager_svelte_51_css_svelte_loader_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_51_css_var_www_html_resources_js_svelte_components_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resources/js/svelte/components/OldWindowManager.svelte.51.css!=!svelte-loader?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte */ "./resources/js/svelte/components/OldWindowManager.svelte.51.css!=!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.51.css!./resources/js/svelte/components/OldWindowManager.svelte");
+/* harmony import */ var _var_www_html_resources_js_svelte_components_OldWindowManager_svelte_2_css_svelte_loader_cssPath_var_www_html_resources_js_svelte_components_OldWindowManager_svelte_2_css_var_www_html_resources_js_svelte_components_OldWindowManager_svelte__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./resources/js/svelte/components/OldWindowManager.svelte.2.css!=!svelte-loader?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte */ "./resources/js/svelte/components/OldWindowManager.svelte.2.css!=!./node_modules/svelte-loader/index.js?cssPath=/var/www/html/resources/js/svelte/components/OldWindowManager.svelte.2.css!./resources/js/svelte/components/OldWindowManager.svelte");
 /* resources/js/svelte/components/OldWindowManager.svelte generated by Svelte v3.38.2 */
 
 
@@ -5586,10 +5586,14 @@ function instance($$self, $$props, $$invalidate) {
 					return;
 				}
 
-				console.log(dX, dY);
-				dX = dX * 0.95;
-				dY = dY * 0.95;
+				// Drag coefficient
+				dX = dX * 0.97;
+
+				dY = dY * 0.97;
+
+				// Move all
 				moveWindows(dX, dY);
+
 				moveBackground(dX, dY);
 				window.requestAnimationFrame(inertiaDrag);
 			};

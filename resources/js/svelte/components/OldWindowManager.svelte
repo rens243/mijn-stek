@@ -63,11 +63,11 @@
                     return
                 }
 
-                console.log(dX, dY);
+                // Drag coefficient
+                dX = dX * 0.97
+                dY = dY * 0.97
 
-                dX = dX * 0.95
-                dY = dY * 0.95
-
+                // Move all
                 moveWindows(dX, dY)
                 moveBackground(dX, dY)
 

@@ -62,7 +62,7 @@ function instance($$self, $$props, $$invalidate) {
 			{
 				id: "goals",
 				title: "Doelstellingen",
-				titleColorFrom: "from-yellow-300",
+				titleColorFrom: "from-blue-300",
 				titleColorTo: "to-green-900",
 				width: 500,
 				x: xMiddle + 25,
@@ -73,13 +73,13 @@ function instance($$self, $$props, $$invalidate) {
 				id: "easter-egg",
 				y: window.innerHeight,
 				x: window.innerWidth,
-				content: `<img width=100  on:click="{() => push('/contact')}" src="https://cdn.pixabay.com/photo/2015/02/28/20/30/easter-653985_960_720.png"/>`
+				content: `<img width=100  onclick="alert('ha, een easter egg!')" src="https://cdn.pixabay.com/photo/2015/02/28/20/30/easter-653985_960_720.png"/>`
 			},
 			{
 				id: "todo",
 				title: "secret to-do list",
-				titleColorFrom: "from-yellow-300",
-				titleColorTo: "to-gray-900",
+				titleColorFrom: "from-red-300",
+				titleColorTo: "to-orange-900",
 				width: 300,
 				y: 0,
 				x: window.innerWidth - 300,
@@ -105,8 +105,8 @@ function instance($$self, $$props, $$invalidate) {
 				titleColorTo: "to-yellow-500",
 				content: `<h1 class="text-2xl"> Rens Moring </h1>
 				<p>
-					Om even een korte profielschets te geven; Ik ben ${getAge("November 26, 1993")} jaar oud, en ik heb Informatica gestudeerd aan de Hogeschool Rotterdam. 
-					Als hobby's heb ik onder andere zeilen, en gamen. Ik heb een oude laptop (en vps) met ubuntu en in mijn rommel-lade liggen een raspberry pi, arduino en een rtl-sdr die ik af en toe pak om mee te experimenteren. 
+					Om even een korte profielschets te geven; Ik ben ${getAge("November 26, 1993")} jaar oud, en ik heb Informatica gestudeerd aan de Hogeschool Rotterdam.
+					Als hobby's heb ik onder andere zeilen, en gamen. Ik heb een oude laptop (en vps) met ubuntu en in mijn rommel-lade liggen een raspberry pi, arduino en een rtl-sdr die ik af en toe pak om mee te experimenteren.
 					Verder heb ik nog een gezonde interesse in muziek, films, Nederlandse taal, en design.
 				</p>`
 			}
