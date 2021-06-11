@@ -1,75 +1,90 @@
-FROM php:8-apache
+# Gracefully stolen from https://github.com/christopherarter/laravel-docker-production and https://github.com/laravel/sail
+
+FROM alpine:3.13
 
 ARG BUILD_ARGUMENT_ENV=prod
-ARG UID=1000
-ARG GID=1000
-ENV USERNAME=www-data
-ENV APP_HOME /var/www/html
 
-WORKDIR /var/www/html
-
-ENV DEBIAN_FRONTEND noninteractive
 ENV TZ=Europe/Amsterdam
 
-RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+# Install packages and remove default server definition
+RUN apk --no-cache add \
+  bash \
+  curl \
+  git \
+  nano \
+  nginx \
+  npm \
+  php8 \
+  php8-ctype \
+  php8-curl \
+  php8-dom \
+  php8-fpm \
+  php8-gd \
+  php8-intl \
+  php8-json \
+  php8-mbstring \
+  php8-mysqli \
+  php8-opcache \
+  php8-openssl \
+  php8-phar \
+  php8-session \
+  php8-xml \
+  php8-tokenizer \
+  php8-xmlreader \
+  php8-zlib \
+  shadow \
+  supervisor \
+  sqlite \
+  && rm /etc/nginx/conf.d/default.conf
 
-RUN apt-get update \
+# Install composer from the official image
+COPY --from=composer /usr/bin/composer /usr/bin/composer
 
-    # I don't even know what this all is
-    && apt-get install -y nano curl libzip-dev zip unzip git supervisor sqlite3 libcap2-bin libpng-dev libjpeg-dev libfreetype6-dev libonig-dev libc-client-dev libkrb5-dev python2 \
+# Create symlink so programs depending on `php` still function
+RUN ln -s /usr/bin/php8 /usr/bin/php
 
-    # php extensions
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd \
-    && docker-php-ext-install pdo_mysql \
-    && docker-php-ext-install mysqli \
-    && docker-php-ext-install zip \
-    && docker-php-ext-install mbstring \
-    && docker-php-ext-configure imap --with-kerberos --with-imap-ssl \
-    && docker-php-ext-install -j$(nproc) imap \
-    && docker-php-source delete \
+# Configure nginx
+COPY nginx.conf /etc/nginx/nginx.conf
 
-    # install composer
-    && php -r "readfile('http://getcomposer.org/installer');" | php -- --install-dir=/usr/bin/ --filename=composer \
+# Configure PHP-FPM
+COPY fpm-pool.conf /etc/php8/php-fpm.d/www.conf
+COPY php.ini /etc/php8/conf.d/custom.ini
 
-    # install node
-    && curl -sL https://deb.nodesource.com/setup_15.x | bash - \
-    && apt-get install -y nodejs \
-
-    # some sql clients
-    && apt-get install -y mariadb-client \
-    && apt-get install -y postgresql-client \
-
-    # cleanup
-    && apt-get -y autoremove \
-    && apt-get clean \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# apparentally we want swoole
-RUN pecl channel-update https://pecl.php.net/channel.xml \
-    && pecl install swoole
-
-# set default conf
-COPY vhosts.config /etc/apache2/sites-available/000-default.conf
-
-# remove all default files inside app home
-RUN rm -r $APP_HOME
-
-# create document root, fix permissions for www-data user and change owner to www-data
-RUN mkdir -p /home/$USERNAME && chown $USERNAME:$USERNAME /home/$USERNAME \
-    && usermod -u $UID $USERNAME -d /home/$USERNAME \
-    && groupmod -g $GID $USERNAME \
-    && chown -R ${USERNAME}:${USERNAME} $APP_HOME
-
-# enable apache mods
-RUN a2enmod rewrite && a2enmod headers
-
-COPY start-container /usr/local/bin/start-container
-COPY start-prod /usr/local/bin/start-prod
+# Configure supervisord
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-COPY php.ini /usr/local/etc/php/php.ini
+# Copy start container scripts
+COPY start-container /usr/local/bin/start-container
+COPY start-prod /usr/local/bin/start-prod
 RUN chmod +x /usr/local/bin/start-container
 RUN chmod +x /usr/local/bin/start-prod
 
+# Setup document root
+RUN mkdir -p /var/www/html
+
+# Make sure files/folders needed by the processes are accessable when they run under the nobody user
+# Create document root, fix permissions for nobody user and change owner to nobody
+RUN mkdir -p /home/nobody && \
+    chown nobody:nobody /home/nobody &&\
+    usermod -u 1000 nobody -d /home/nobody &&\
+    groupmod -g 1000 nobody && \
+    chown -R nobody:nobody /var/www/html && \
+    chown -R nobody:nobody /run && \
+    chown -R nobody:nobody /var/lib/nginx && \
+    chown -R nobody:nobody /var/log/nginx
+
+# Switch to use a non-root user from here on
+USER nobody
+
+# Add application
+WORKDIR /var/www/html
+COPY --chown=nobody . /var/www/html
+
+# Expose the port nginx is reachable on
+EXPOSE 8080
+
+# Let supervisord start nginx & php-fpm
 ENTRYPOINT ["start-container"]
+
+# Configure a healthcheck to validate that everything is up&running
+HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping
