@@ -32,6 +32,7 @@ RUN apk --no-cache add \
   php8-xml \
   php8-tokenizer \
   php8-xmlreader \
+  php8-xmlwriter \
   php8-zlib \
   shadow \
   supervisor \
