@@ -13,7 +13,7 @@ module.exports = {
 
 module.exports = {
     purge: {
-        enabled: process.env.NODE_ENV === 'production',
+        enabled: false, // process.env.NODE_ENV === 'production', todo: fix purge
         mode: 'all',
         content: ['./**/**/*.html', './**/**/*.svelte'],
         options: {

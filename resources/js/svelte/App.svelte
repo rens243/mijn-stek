@@ -37,5 +37,6 @@
 <style>
 	:global(body) {
 		overflow: hidden;
+        background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
 	}
 </style>

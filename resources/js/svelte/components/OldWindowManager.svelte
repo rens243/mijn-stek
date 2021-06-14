@@ -123,11 +123,6 @@
 <svelte:body on:mousemove="{dragMove}" on:mouseleave="{dragEnd}" on:mouseup="{dragEnd}"/>
 
 <style>
-	:global(body) {
-		overflow: hidden;
-        background-image: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);
-	}
-
 	#main-bg {
 		width: 100%;
 		height: 100%;
