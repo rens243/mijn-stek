@@ -8,5 +8,4 @@ if [ "$APP_ENV" = 'prod' ] || [ "$APP_ENV" = 'production' ]; then
     php artisan up
 fi
 
-#TODO: fix logging output to screen?
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

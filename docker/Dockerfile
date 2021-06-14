@@ -28,6 +28,7 @@ RUN apk --no-cache add \
   php8-openssl \
   php8-phar \
   php8-session \
+  php8-simplexml \
   php8-xml \
   php8-tokenizer \
   php8-xmlreader \

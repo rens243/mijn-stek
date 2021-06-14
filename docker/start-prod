@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
+# Composer package
 composer install --no-interaction --no-dev --optimize-autoloader
+
+# NPM install
+npm install
 npm run prod
 
 # Migrate database
