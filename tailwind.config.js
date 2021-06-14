@@ -1,27 +1,4 @@
 module.exports = {
-  purge: [],
-  darkMode: false, // or 'media' or 'class'
-  theme: {
-    extend: {},
-  },
-  variants: {
-    extend: {},
-  },
-  plugins: [],
-}
-
-
-module.exports = {
-    purge: {
-        enabled: false, // process.env.NODE_ENV === 'production', todo: fix purge
-        mode: 'all',
-        content: ['./**/**/*.html', './**/**/*.svelte'],
-        options: {
-            whitelistPatterns: [/svelte-/],
-            defaultExtractor: (content) =>
-                [...content.matchAll(/(?:class:)*([\w\d-/:%.]+)/gm)].map(([_match, group, ..._rest]) => group),
-        },
-    },
     darkMode: false, // or 'media' or 'class'
     theme: {
         extend: {
@@ -44,4 +21,16 @@ module.exports = {
         },
     },
     plugins: [],
+    purge: {
+        content: [
+            './resources/**/*.blade.php',
+            './resources/**/*.html',
+            './resources/**/*.js',
+            './resources/**/*.svelte',
+            './resources/**/*.vue',
+        ],
+        options: {
+            safelist: ['/svelte-/', 'cursor-grabbing', 'cursor-grab'],
+        },
+    },
 }
