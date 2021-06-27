@@ -88,7 +88,7 @@ RUN mkdir -p  ~/.ssh && \
 
  # Create ssh key and fix permissions
 RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa \
-    && chmod 600 ~/.ssh/id_rsa && \
+    && chmod 600 ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa.pub \
     && echo "PUBLIC KEY:" \
     && cat ~/.ssh/id_rsa.pub
