@@ -3,7 +3,6 @@
 FROM alpine:3.13
 
 #ARG BUILD_ARGUMENT_ENV=prod
-#ARG SSH_KEY
 
 ENV TZ=Europe/Amsterdam
 
@@ -87,14 +86,12 @@ USER nobody
 RUN mkdir -p  ~/.ssh && \
     chmod 700  ~/.ssh
 
-# Copy over ssh keys and fix permissions
-RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
-RUN chmod 600 ~/.ssh/id_rsa && \
-    chmod 600 ~/.ssh/id_rsa.pub
-
-# Echo public key
-RUN echo "PUBLIC KEY:"
-RUN cat ~/.ssh/id_rsa.pub
+ # Create ssh key and fix permissions
+RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa \
+    && chmod 600 ~/.ssh/id_rsa && \
+    && chmod 600 ~/.ssh/id_rsa.pub \
+    && echo "PUBLIC KEY:" \
+    && cat ~/.ssh/id_rsa.pub
 
 # Add application
 WORKDIR /var/www/html
