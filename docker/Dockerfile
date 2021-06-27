@@ -88,10 +88,13 @@ RUN mkdir -p  ~/.ssh && \
     chmod 700  ~/.ssh
 
 # Copy over ssh keys and fix permissions
-COPY ~/.ssh/id_rsa.pub ~/.ssh/id_rsa.pub
-COPY ~/.ssh/id_rsa ~/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/id_rsa && \
-    chmod 600 /root/.ssh/id_rsa.pub
+RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa
+RUN chmod 600 ~/.ssh/id_rsa && \
+    chmod 600 ~/.ssh/id_rsa.pub
+
+# Echo public key
+RUN echo "PUBLIC KEY:"
+RUN cat ~/.ssh/id_rsa.pub
 
 # Add application
 WORKDIR /var/www/html
