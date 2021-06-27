@@ -3,6 +3,7 @@
 FROM alpine:3.13
 
 ARG APP_ENV=prod
+ENV APP_ENV=$APP_ENV
 ENV TZ=Europe/Amsterdam
 
 # Install packages and remove default server definition
@@ -47,19 +48,19 @@ COPY --from=composer /usr/bin/composer /usr/bin/composer
 RUN ln -s /usr/bin/php8 /usr/bin/php
 
 # Configure nginx
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY ./docker/nginx.conf /etc/nginx/nginx.conf
 
 # Configure PHP-FPM
-COPY fpm-pool.conf /etc/php8/php-fpm.d/www.conf
-COPY php.ini /etc/php8/conf.d/custom.ini
+COPY ./docker/fpm-pool.conf /etc/php8/php-fpm.d/www.conf
+COPY ./docker/php.ini /etc/php8/conf.d/custom.ini
 
 # Configure supervisord
-COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Copy start container scripts
-COPY start-container /usr/local/bin/start-container
-COPY start-prod /usr/local/bin/start-prod
-COPY server-deploy /usr/local/bin/server-deploy
+COPY ./docker/start-container /usr/local/bin/start-container
+COPY ./docker/start-prod /usr/local/bin/start-prod
+COPY ./docker/server-deploy /usr/local/bin/server-deploy
 RUN chmod +x /usr/local/bin/start-container
 RUN chmod +x /usr/local/bin/start-prod
 RUN chmod +x /usr/local/bin/server-deploy
@@ -89,8 +90,12 @@ RUN mkdir -p  ~/.ssh && \
 RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa.pub \
+    && echo "" \
+    && echo "" \
     && echo "PUBLIC KEY:" \
-    && cat ~/.ssh/id_rsa.pub
+    && cat ~/.ssh/id_rsa.pub \
+    && echo "" \
+    && echo ""
 
 # Add application
 WORKDIR /var/www/html
@@ -100,7 +105,7 @@ COPY --chown=nobody . /var/www/html
 EXPOSE 8080
 
 # Let supervisord start nginx & php-fpm
-ENTRYPOINT ["start-container", "$APP_ENV"]
+ENTRYPOINT ["start-container"]
 
 # Configure a healthcheck to validate that everything is up&running
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-APP_ENV="$1"
+echo "APP_ENV is $APP_ENV"
 
 if [ "$APP_ENV" = 'prod' ] || [ "$APP_ENV" = 'production' ]; then
     php artisan down
