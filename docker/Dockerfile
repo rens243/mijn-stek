@@ -2,7 +2,8 @@
 
 FROM alpine:3.13
 
-ARG BUILD_ARGUMENT_ENV=prod
+#ARG BUILD_ARGUMENT_ENV=prod
+#ARG SSH_KEY
 
 ENV TZ=Europe/Amsterdam
 
@@ -14,6 +15,7 @@ RUN apk --no-cache add \
   nano \
   nginx \
   npm \
+  openssh \
   php8 \
   php8-ctype \
   php8-curl \
@@ -59,8 +61,10 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 # Copy start container scripts
 COPY start-container /usr/local/bin/start-container
 COPY start-prod /usr/local/bin/start-prod
+COPY server-deploy /usr/local/bin/server-deploy
 RUN chmod +x /usr/local/bin/start-container
 RUN chmod +x /usr/local/bin/start-prod
+RUN chmod +x /usr/local/bin/server-deploy
 
 # Setup document root
 RUN mkdir -p /var/www/html
@@ -78,6 +82,16 @@ RUN mkdir -p /home/nobody && \
 
 # Switch to use a non-root user from here on
 USER nobody
+
+# Add ssh key folder
+RUN mkdir -p  ~/.ssh && \
+    chmod 700  ~/.ssh
+
+# Copy over ssh keys and fix permissions
+COPY ~/.ssh/id_rsa.pub ~/.ssh/id_rsa.pub
+COPY ~/.ssh/id_rsa ~/.ssh/id_rsa
+RUN chmod 600 /root/.ssh/id_rsa && \
+    chmod 600 /root/.ssh/id_rsa.pub
 
 # Add application
 WORKDIR /var/www/html

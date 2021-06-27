@@ -256,10 +256,17 @@ if [ $# -gt 0 ]; then
         shift 1
 
         if [ "$EXEC" == "yes" ]; then
-            docker-compose exec \
-                -u nobody \
-                "$APP_SERVICE" \
-                bash
+            if [ "$@" ]; then
+                docker-compose exec \
+                    -u nobody \
+                    "$APP_SERVICE" \
+                    bash -c "$@"
+            else
+                docker-compose exec \
+                    -u nobody \
+                    "$APP_SERVICE" \
+                    bash
+            fi
         else
             sail_is_not_running
         fi
