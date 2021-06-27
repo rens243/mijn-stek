@@ -3,18 +3,20 @@
 # Composer package
 composer install --no-interaction --no-dev --optimize-autoloader
 
+# Maintenance mode
 php artisan down
+    # Generate key
+    php artisan key:generate
 
-# NPM install
-npm install
-npm run prod
+    # NPM install
+    npm install
+    npm run prod
 
-# Migrate database
-php artisan migrate --force
+    # Migrate database
+    php artisan migrate --force
 
-# clear caching etc
-php artisan config:clear
-php artisan route:clear
-php artisan view:clear
-
+    # clear caching etc
+    php artisan config:clear
+    php artisan route:clear
+    php artisan view:clear
 php artisan up
