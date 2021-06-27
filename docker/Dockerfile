@@ -101,6 +101,11 @@ RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa \
 WORKDIR /var/www/html
 COPY --chown=nobody . /var/www/html
 
+# Install composer packages and generate key
+RUN if [ "$APP_ENV" = 'prod' ] || [ "$APP_ENV" = 'production' ]; then \
+    composer install --no-interaction --no-dev --optimize-autoloader \
+    && php artisan key:generate ; fi
+
 # Expose the port nginx is reachable on
 EXPOSE 8080
 
