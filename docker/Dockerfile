@@ -2,8 +2,7 @@
 
 FROM alpine:3.13
 
-#ARG BUILD_ARGUMENT_ENV=prod
-
+ARG APP_ENV=prod
 ENV TZ=Europe/Amsterdam
 
 # Install packages and remove default server definition
@@ -101,7 +100,7 @@ COPY --chown=nobody . /var/www/html
 EXPOSE 8080
 
 # Let supervisord start nginx & php-fpm
-ENTRYPOINT ["start-container"]
+ENTRYPOINT ["start-container", "$APP_ENV"]
 
 # Configure a healthcheck to validate that everything is up&running
 HEALTHCHECK --timeout=10s CMD curl --silent --fail http://127.0.0.1:8080/fpm-ping

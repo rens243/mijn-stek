@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+APP_ENV="$1"
+
 if [ "$APP_ENV" = 'prod' ] || [ "$APP_ENV" = 'production' ]; then
     php artisan down
 
