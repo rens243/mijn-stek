@@ -90,6 +90,7 @@ RUN mkdir -p  ~/.ssh && \
 RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa.pub \
+    && ssh-keyscan -H github.com >> ~/.ssh/known_hosts \
     && echo "" \
     && echo "" \
     && echo "PUBLIC KEY:" \
