@@ -17,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('svelte-app');
 });
+
+Route::get('/bcae', function () {
+    return redirect('https://www.instagram.com/bread.clips.are.everywhere/');
+});

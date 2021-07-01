@@ -7,6 +7,7 @@ ENV APP_ENV=$APP_ENV
 ENV TZ=Europe/Amsterdam
 
 # Install packages and remove default server definition
+# php8-pdo php8-pdo_mysql ? https://github.com/openemr/openemr-devops/blob/master/docker/openemr/flex-3.13-8/Dockerfile
 RUN apk --no-cache add \
   bash \
   curl \
@@ -90,7 +91,7 @@ RUN mkdir -p  ~/.ssh && \
 RUN ssh-keygen -q -t rsa -N '' -f ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa \
     && chmod 600 ~/.ssh/id_rsa.pub \
-    && ssh-keyscan -H github.com >> ~/.ssh/known_hosts \
+    && ssh-keyscan github.com >> ~/.ssh/known_hosts \
     && echo "" \
     && echo "" \
     && echo "PUBLIC KEY:" \
