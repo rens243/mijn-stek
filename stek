@@ -260,7 +260,7 @@ if [ $# -gt 0 ]; then
                 docker-compose exec \
                     -u nobody \
                     "$APP_SERVICE" \
-                    bash -c "$@"
+                    bash -c "$*"
             else
                 docker-compose exec \
                     -u nobody \

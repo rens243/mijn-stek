@@ -33,4 +33,4 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           script: |
             cd ${{ secrets.REPO_LOCATION }}
-            ./stek bash server-deploy
+            docker-compose exec -T laravel bash -c "server-deploy"

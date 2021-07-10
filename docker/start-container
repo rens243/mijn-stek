@@ -1,11 +1,9 @@
 #!/usr/bin/env bash
 
+echo "APP_ENV is $APP_ENV"
+
 if [ "$APP_ENV" = 'prod' ] || [ "$APP_ENV" = 'production' ]; then
-    php artisan down
-
     start-prod
-
-    php artisan up
 fi
 
 /usr/bin/supervisord -c /etc/supervisor/conf.d/supervisord.conf

@@ -3,14 +3,13 @@ version: '3'
 services:
   laravel:
     build:
-      context: ./docker/
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: ./docker/Dockerfile
     labels:
       caddy: ${CADDY}
       caddy.reverse_proxy: "{{upstreams 8080}}"
     environment:
       APP_ENV: '${APP_ENV}'
-      SSH_KEY: '${SSH_KEY}'
     networks:
       - steknet
       - caddy
