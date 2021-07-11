@@ -9,29 +9,59 @@
 	let bgPosX = 0;
 	let bgPosY = 0;
 
+    const throttle = (func, limit = 16 ) => {
+        let inThrottle;
+        return (...args) => {
+            if (!inThrottle) {
+                func.apply(this, args);
+                inThrottle = true;
+                setTimeout(() => inThrottle = false, limit);
+            }
+        }
+    }
+
+    const promisedThrottle = (func, limit = 16) => {
+        let inThrottle;
+        return (...args) => {
+            const context = this
+            return new Promise((resolve) => {
+                if (!inThrottle) {
+                    func.apply(context, args)
+                    inThrottle = true
+                    setTimeout(() => inThrottle = false, limit)
+                    resolve()
+                }
+            })
+        }
+    }
+
 	// Helper function to move windows
-    const moveWindows = (dX, dY) => {
+    const moveWindows = promisedThrottle((dX, dY) => {
         // Move windows
         $windowStore = windowStoreMap((oldWindow) => {
             oldWindow.x = oldWindow.x + dX
             oldWindow.y =  oldWindow.y + dY
             return oldWindow
         })
-    }
+    })
 
     // Helper function to move background
-    const moveBackground = (dX, dY) => {
+    const moveBackground = promisedThrottle((dX, dY) => {
         bgPosX = bgPosX + dX
         bgPosY = bgPosY + dY
-    }
+    })
 
 	// Dragging logic
 	let cursor = 'grab'
     let dragActive = false
 
     // Delta x and y when grabbing
-    let dX
-    let dY
+    let dX = 0
+    let dY = 0
+
+    // Get last movement for inertia
+    let inertiaDX = 0
+    let inertiaDY = 0
 
     const dragStart = (e) => {
 		cursor = 'grabbing'
@@ -40,11 +70,20 @@
     const dragMove = (e) => {
         if (!dragActive) return
 
-        dX = e.movementX
-        dY = e.movementY
+        dX += e.movementX
+        dY += e.movementY
 
-		moveWindows(dX, dY)
-        moveBackground(dX, dY)
+        Promise.all([
+            moveWindows(dX, dY),
+            moveBackground(dX, dY)
+        ]).then(() => {
+            inertiaDY = dY
+            inertiaDX = dX
+
+            dX = 0
+            dY = 0
+        })
+
     }
     const dragEnd = (e) => {
         if (dragActive) {
@@ -52,34 +91,36 @@
             dragActive = false
             cursor = 'grab'
 
-            const inertiaDrag = () => {
+            const inertiaDrag = (timestamp) => {
                 // Stop inertia if drag is enabled again
                 if (dragActive) return
 
                 // No delta, nothing to move
-                if (Math.abs(dX) < 0.1 && Math.abs(dY) < 0.1 ) {
-                    dX = null
-                    dY = null
-                    return
-                }
+                if (Math.abs(inertiaDX) < 0.1 && Math.abs(inertiaDY) < 0.1) return
 
                 // Drag coefficient
-                dX = dX * 0.97
-                dY = dY * 0.97
+                inertiaDX = inertiaDX * 0.95
+                inertiaDY = inertiaDY * 0.95
 
                 // Move all
-                moveWindows(dX, dY)
-                moveBackground(dX, dY)
+                moveWindows(inertiaDX, inertiaDY)
+                moveBackground(inertiaDX, inertiaDY)
 
-                window.requestAnimationFrame(inertiaDrag);
+                // 60fps animation loop.
+                window.setTimeout(
+                    () => window.requestAnimationFrame(inertiaDrag),
+                    Math.max(0, 16 - Date.now() - timestamp)
+                )
             }
 
-            window.requestAnimationFrame(inertiaDrag)
+            window.requestAnimationFrame(() => inertiaDrag(Date.now()))
         }
 
 	    // End drag
 		dragActive = false
 		cursor = 'grab'
+        dX = 0
+        dY = 0
 	}
 
 	// Window drag logic
@@ -95,7 +136,7 @@
         if (dragActiveWindow !== currentId) return
 
 		windowStoreMap((oldWindow) => {
-			if (oldWindow.id == currentId) {
+			if (oldWindow.id === currentId) {
 				// Add position difference to window
 				oldWindow.y = oldWindow.y + e.detail.mouseEvent.movementY
 				oldWindow.x = oldWindow.x + e.detail.mouseEvent.movementX
