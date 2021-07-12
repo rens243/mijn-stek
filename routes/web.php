@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\TrashVaccineController;
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +13,13 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::name('auth.')->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])
+        ->name('login');
+//    Route::get('/register', [AuthController::class, 'register'])
+//        ->name('register');
+});
 
 Route::get('/', function () {
     return view('svelte-app');
