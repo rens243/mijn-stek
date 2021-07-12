@@ -23,12 +23,14 @@ RUN apk --no-cache add \
   php8-fileinfo \
   php8-fpm \
   php8-gd \
+  php8-iconv \
   php8-intl \
   php8-json \
   php8-mbstring \
   php8-mysqli \
   php8-opcache \
   php8-openssl \
+  php8-pdo_mysql \
   php8-phar \
   php8-session \
   php8-simplexml \

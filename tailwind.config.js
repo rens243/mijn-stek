@@ -1,36 +1,27 @@
+const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
-    darkMode: false, // or 'media' or 'class'
+    mode: 'jit',
+    purge: [
+        './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+        './vendor/laravel/jetstream/**/*.blade.php',
+        './storage/framework/views/*.php',
+        './resources/views/**/*.blade.php',
+    ],
+
     theme: {
         extend: {
-            cursor: {
-                auto: 'auto',
-                default: 'default',
-                pointer: 'pointer',
-                wait: 'wait',
-                text: 'text',
-                move: 'move',
-                'not-allowed': 'not-allowed',
-                grab: 'grab',
-                grabbing: 'grabbing'
-            }
+            fontFamily: {
+                sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+            },
         },
     },
+
     variants: {
         extend: {
-            backgroundColor: ['active']
+            opacity: ['disabled'],
         },
     },
-    plugins: [],
-    purge: {
-        content: [
-            './resources/**/*.blade.php',
-            './resources/**/*.html',
-            './resources/**/*.js',
-            './resources/**/*.svelte',
-            './resources/**/*.vue',
-        ],
-        options: {
-            safelist: ['/svelte-/', 'cursor-grabbing', 'cursor-grab'],
-        },
-    },
-}
+
+    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+};
