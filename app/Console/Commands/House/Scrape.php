@@ -7,6 +7,7 @@ use App\Models\House\House;
 use Goutte\Client as GoutteClient;
 use Illuminate\Console\Command;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\DomCrawler\UriResolver;
 
 
 class Scrape extends Command
@@ -16,7 +17,7 @@ class Scrape extends Command
      *
      * @var string
      */
-    protected $signature = 'house:scrape {estate?} {--mail}';
+    protected $signature = 'house:scrape {estate?} {--mail} {--dry-run}';
 
     /**
      * The console command description.
@@ -49,31 +50,42 @@ class Scrape extends Command
         $estates = Estate::query()
             ->get();
 
-        foreach($estates as $estate) {
-            $this->info($estate->toJson());
+        try {
+            foreach($estates as $estate) {
+                $this->info("Scraping $estate->id: $estate->name $estate->url");
 
-            $scraper = $client->request('GET', $estate->url);
+                $scraper = $client->request('GET', $estate->url);
 
-            $scraper
-                ->filter($estate->selector_all)
-                ->filter($estate->selector_each)
-                ->each(function (Crawler $node) use ($estate, &$houses) {
-                    // Set House values and push to array
-                    array_push($houses, [
-                        'name' => $node->filter($estate->selector_name)->text(),
-                        'estate_id' => $estate->id,
-                        'description' => implode('<br/>', $node->filter($estate->selector_description)->each(fn($node) => $node->text())),
-                        'photo' => $node->filter($estate->selector_photo)->image()->getUri(),
-                        'price' => $node->filter($estate->selector_price)->text(),
-                        'link' => $node->filter($estate->selector_link)->first()->attr('href'),
-                        'raw' => $node->html(),
-                    ]);
-                });
+                $scraper
+                    ->filter($estate->selector_all)
+                    ->filter($estate->selector_each)
+                    ->each(function (Crawler $node) use ($estate, &$houses) {
+                        // Create realiable house link
+                        $houseLink = $node->filter($estate->selector_link)->first()->attr('href');
+                        $houseLink = UriResolver::resolve($houseLink, $estate->url);
+
+                        // Set House values and push to array
+                        array_push($houses, [
+                            'name' => $node->filter($estate->selector_name)->text(),
+                            'estate_id' => $estate->id,
+                            'description' => implode('\n', $node->filter($estate->selector_description)->each(fn($node) => $node->text())),
+                            'photo' => $node->filter($estate->selector_photo)->image()->getUri(),
+                            'price' => $node->filter($estate->selector_price)->text(),
+                            'link' => $houseLink,
+                            'raw' => $node->html(),
+                        ]);
+                    });
+            }
+        } catch(\Exception $e) {
+            $this->error('Something went wrong during scraping');
+            $this->error(':'.$e->getLine().' '.$e->getMessage());
+            return 1;
         }
 
-        $this->info(json_encode($houses, JSON_PRETTY_PRINT));
+        House::query()
+            ->upsert($houses, ['name', 'description']);
 
-        House::upsert($houses, ['name', 'description']);
+        $this->info('scrape done :)');
 
         return 0;
     }

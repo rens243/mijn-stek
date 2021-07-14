@@ -14,7 +14,10 @@ class EstateController extends Controller
      */
     public function index()
     {
-        return view('houses.estate.index');
+        $estates = Estate::query()
+            ->get();
+
+        return view('houses.estate.index', ['estates' => $estates]);
     }
 
     /**
@@ -24,7 +27,7 @@ class EstateController extends Controller
      */
     public function create()
     {
-        //
+        return view('houses.estate.create');
     }
 
     /**

@@ -12,10 +12,10 @@ class House extends Model
     /**
      * Estate relationship
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function estate(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function estate(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasOne(Estate::class);
+        return $this->belongsTo(Estate::class);
     }
 }

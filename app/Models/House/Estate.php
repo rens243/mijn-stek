@@ -17,6 +17,16 @@ class Estate extends Model
     protected $guarded = [];
 
     /**
+     * Creating a color from name
+     *
+     * @return string
+     */
+    public function getHexColorAttribute()
+    {
+        return substr(md5($this->name), 0, 6);
+    }
+
+    /**
      * Houses relationship
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
