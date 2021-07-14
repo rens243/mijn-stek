@@ -19,8 +19,10 @@ class CreateEstatesTable extends Migration
             $table->string('url');
             $table->string('selector_all'); // full container with all objects
             $table->string('selector_each'); // each object
+            $table->string('selector_name');
+            $table->text('selector_description');
+            $table->string('selector_photo');
             $table->string('selector_price');
-            $table->string('selector_description');
             $table->string('selector_link');
             $table->timestamps();
         });

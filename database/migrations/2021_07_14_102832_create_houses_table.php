@@ -15,13 +15,17 @@ class CreateHousesTable extends Migration
     {
         Schema::create('houses', function (Blueprint $table) {
             $table->id();
-            $table->foreign('estate_id')->references('id')->on('estates')->cascadeOnDelete();
             $table->string('name');
-            $table->string('photo');
+            $table->unsignedBigInteger('estate_id');
             $table->string('description');
+            $table->string('photo');
             $table->string('price');
+            $table->string('link');
             $table->text('raw');
             $table->timestamps();
+
+            $table->foreign('estate_id')->references('id')->on('estates')->cascadeOnDelete();
+            $table->unique(['name', 'description']);
         });
     }
 
