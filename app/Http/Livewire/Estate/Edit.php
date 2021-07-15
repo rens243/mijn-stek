@@ -27,17 +27,35 @@ class Edit extends Component
         $this->validateOnly($propertyName);
     }
 
+    /**
+     * Test if estate is working
+     */
+    public function test()
+    {
+        $exitCode = \Artisan::call('house:scrape', [
+            'estate' => $this->estate->id,
+            '--no-save' => true
+        ]);
+
+        if ($exitCode !== 1) {
+            $this->emit('alert', 'Command successful.');
+            return;
+        }
+
+        $this->emit('alert', 'Command did not run successfully.');
+    }
+
     public function update()
     {
         $this->validate();
 
         if (!$this->estate->save()) {
             // flash error
-            session()->flash('message', 'Estate updated.');
+            session()->flash('message', 'Could not update.');
             return null;
         }
 
-        session()->flash('message', 'Estate succesfully added.');
+        session()->flash('message', 'Estate succesfully updated.');
         return redirect(action([EstateController::class, 'edit'], $this->estate->id));
     }
 

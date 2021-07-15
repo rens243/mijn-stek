@@ -17,7 +17,7 @@ class Scrape extends Command
      *
      * @var string
      */
-    protected $signature = 'house:scrape {estate?} {--mail} {--dry-run}';
+    protected $signature = 'house:scrape {estate?} {--mail} {--no-save}';
 
     /**
      * The console command description.
@@ -48,7 +48,10 @@ class Scrape extends Command
         $houses = [];
 
         $estates = Estate::query()
-            ->get();
+            ->when(
+                is_string($this->argument('estate')),
+                fn($query) => $query->where('id', '=', $this->argument('estate'))
+            )->get();
 
         try {
             foreach($estates as $estate) {
@@ -82,8 +85,11 @@ class Scrape extends Command
             return 1;
         }
 
-        House::query()
-            ->upsert($houses, ['name', 'description']);
+        // Save if 'no-save' option is false
+        if (!$this->option('no-save')) {
+            House::query()
+                ->upsert($houses, ['name', 'description']);
+        }
 
         $this->info('scrape done :)');
 

@@ -41,6 +41,8 @@
 
         @stack('modals')
 
+        <x-alert />
+
         @livewireScripts
     </body>
 </html>
