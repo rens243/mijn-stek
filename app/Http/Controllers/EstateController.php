@@ -60,7 +60,7 @@ class EstateController extends Controller
      */
     public function edit(Estate $estate)
     {
-        //
+        return view('houses.estate.edit', ['estate' => $estate]);
     }
 
     /**

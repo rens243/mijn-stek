@@ -3,25 +3,21 @@
 namespace App\Http\Livewire\Estate;
 
 use App\Http\Controllers\EstateController;
-use App\Models\House\Estate;
 use App\Http\Requests\Estate as EstateRequest;
+use App\Models\House\Estate;
 use Livewire\Component;
 
-class Create extends Component
+class Edit extends Component
 {
     public Estate $estate;
 
     protected EstateRequest $formRequest;
 
-    public function mount() {
-        $this->estate = new Estate;
-    }
-
     public function rules()
     {
         if (!isset($this->formRequest)) {
             $this->formRequest = new EstateRequest();
-            $this->formRequest->actionIsCreate();
+            $this->formRequest->actionIsEdit();
         }
         return $this->formRequest->rules();
     }
@@ -31,13 +27,13 @@ class Create extends Component
         $this->validateOnly($propertyName);
     }
 
-    public function store()
+    public function update()
     {
         $this->validate();
 
         if (!$this->estate->save()) {
             // flash error
-            session()->flash('message', 'Estate could saved.');
+            session()->flash('message', 'Estate updated.');
             return null;
         }
 
@@ -45,8 +41,19 @@ class Create extends Component
         return redirect(action([EstateController::class, 'edit'], $this->estate->id));
     }
 
+    public function destroy()
+    {
+        if (!$this->estate->delete()) {
+            session()->flash('message', 'Estate could not be deleted.');
+            return null;
+        }
+
+        session()->flash('message', 'Estate succesfully deleted.');
+        return redirect(action([EstateController::class, 'index']));
+    }
+
     public function render()
     {
-        return view('livewire.estate.create');
+        return view('livewire.estate.edit', ['estate' => $this->estate]);
     }
 }

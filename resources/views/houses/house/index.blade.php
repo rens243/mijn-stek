@@ -1,8 +1,8 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="flex font-semibold text-xl text-gray-800 leading-tight">
             Houses
-            <a class="text-base leading-7 no-underline" href="{{ action([\App\Http\Controllers\EstateController::class, 'index']) }}">
+            <a class="ml-auto text-base leading-7 no-underline" href="{{ action([\App\Http\Controllers\EstateController::class, 'index']) }}">
                 ⚙
             </a>
         </h2>

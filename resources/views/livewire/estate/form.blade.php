@@ -6,7 +6,7 @@
     </label>
     <label class="block">
         <span class="text-gray-700">Url</span>
-        <input type="text" wire:model="estate.url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.url" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.url') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <div class="block">
@@ -17,37 +17,37 @@
     </div>
     <label class="block">
         <span class="text-gray-700">Selector All</span>
-        <input type="text" wire:model="estate.selector_all" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_all" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_all') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <label class="block">
         <span class="text-gray-700">Selector Each</span>
-        <input type="text" wire:model="estate.selector_each" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_each" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_each') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <label class="block">
         <span class="text-gray-700">Selector Name</span>
-        <input type="text" wire:model="estate.selector_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_name" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_name') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <label class="block">
         <span class="text-gray-700">Selector Description</span>
-        <input type="text" wire:model="estate.selector_description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_description" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_description') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <label class="block">
         <span class="text-gray-700">Selector Photo</span>
-        <input type="text" wire:model="estate.selector_photo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_photo" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_photo') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <label class="block">
         <span class="text-gray-700">Selector Price</span>
-        <input type="text" wire:model="estate.selector_price" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_price" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_price') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
     <label class="block">
         <span class="text-gray-700">Selector Link</span>
-        <input type="text" wire:model="estate.selector_link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
+        <input type="text" wire:model.lazy="estate.selector_link" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="">
         @error('estate.selector_link') <span class="error text-red-500">{{ $message }}</span> @enderror
     </label>
 

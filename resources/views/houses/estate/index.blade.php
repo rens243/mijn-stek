@@ -1,7 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="flex font-semibold text-xl text-gray-800 leading-tight">
             Estates
+            <a class="ml-auto text-base leading-7 no-underline" href="{{ action([\App\Http\Controllers\EstateController::class, 'index']) }}">
+                ⚙
+            </a>
         </h2>
     </x-slot>
 
@@ -29,7 +32,9 @@
                         </td>
 
                         <td class="py-4 px-6 border-b border-grey-light">
-                            <a href="{{action([\App\Http\Controllers\EstateController::class, 'edit'], $estate->id)}}" class="text-white no-underline text-center mr-2 p-1 rounded bg-blue-600">✏</a>
+                            <a href="{{action([\App\Http\Controllers\EstateController::class, 'edit'], $estate->id)}}" class="ml-auto text-white no-underline block p-2 px-4 mr-2 rounded bg-blue-600">
+                                Edit
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -37,8 +42,12 @@
             </table>
         </div>
 
+
+
         <div class="flex max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <a href="{{action([\App\Http\Controllers\EstateController::class, 'create'])}}" class="ml-auto text-white no-underline text-center mr-2 p-1 rounded bg-green-600">➕</a>
+            <a href="{{action([\App\Http\Controllers\EstateController::class, 'create'])}}" class="ml-auto text-white no-underline block p-2 px-4 mr-2 rounded bg-green-600">
+                Create new
+            </a>
         </div>
     </div>
 </x-app-layout>
