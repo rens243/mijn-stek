@@ -35,13 +35,16 @@ class Create extends Component
     {
         $this->validate();
 
+        // Stupid null checkbox
+        $this->estate->active = (bool)$this->estate->active;
+
         if (!$this->estate->save()) {
             // flash error
-            session()->flash('message', 'Estate could saved.');
+            $this->emit('alert', 'Estate could saved.');
             return null;
         }
 
-        session()->flash('message', 'Estate succesfully added.');
+        $this->emit('alert', 'Estate succesfully added.');
         return redirect(action([EstateController::class, 'edit'], $this->estate->id));
     }
 

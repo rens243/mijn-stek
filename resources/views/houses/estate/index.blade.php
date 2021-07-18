@@ -14,7 +14,7 @@
             <table class="table-auto bg-white text-left w-full border-collapse"> <!--Border collapse doesn't work on this site yet but it's available in newer tailwind versions -->
                 <thead>
                 <tr>
-                    @foreach(['id', 'name', 'url', ''] as $th)
+                    @foreach(['id', 'name', 'active', 'url', ''] as $th)
                         <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">
                             {{ $th }}
                         </th>
@@ -27,6 +27,7 @@
                     <tr>
                         <td class="py-4 px-6 border-b border-grey-light">{{$estate->id }}</td>
                         <td class="py-4 px-6 border-b border-grey-light">{{$estate->name }}</td>
+                        <td class="py-4 px-6 border-b border-grey-light">{{$estate->active ? '✔' : '❌' }}</td>
                         <td class="py-4 px-6 border-b border-grey-light">
                             <a href="{{ $estate->url }}">{{ $estate->url }}</a>
                         </td>

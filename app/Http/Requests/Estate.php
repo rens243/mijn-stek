@@ -28,6 +28,7 @@ class Estate extends FormRequest
         $rules = [
             'estate.name' => 'required|string|min:6',
             'estate.url' => 'required|string|url',
+            'estate.active' => 'bool',
             'estate.selector_all' => 'required|string',
             'estate.selector_name' => 'required|string',
             'estate.selector_each' => 'required|string',

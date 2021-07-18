@@ -34,7 +34,8 @@ class Edit extends Component
     {
         $exitCode = \Artisan::call('house:scrape', [
             'estate' => $this->estate->id,
-            '--no-save' => true
+            '--no-save' => true,
+            '--no-mail' => true
         ]);
 
         if ($exitCode !== 1) {
@@ -51,22 +52,21 @@ class Edit extends Component
 
         if (!$this->estate->save()) {
             // flash error
-            session()->flash('message', 'Could not update.');
+            $this->emit('alert', 'Could not update.');
             return null;
         }
 
-        session()->flash('message', 'Estate succesfully updated.');
-        return redirect(action([EstateController::class, 'edit'], $this->estate->id));
+        $this->emit('alert', 'Estate succesfully updated.');
     }
 
     public function destroy()
     {
         if (!$this->estate->delete()) {
-            session()->flash('message', 'Estate could not be deleted.');
+            $this->emit('alert', 'Estate could not be deleted.');
             return null;
         }
 
-        session()->flash('message', 'Estate succesfully deleted.');
+        $this->emit('alert', 'Estate succesfully deleted.');
         return redirect(action([EstateController::class, 'index']));
     }
 

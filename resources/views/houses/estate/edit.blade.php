@@ -17,6 +17,4 @@
             </div>
         </div>
     </div>
-
-    <livewire:alert />
 </x-app-layout>
