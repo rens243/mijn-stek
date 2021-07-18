@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Actions\Jetstream\DeleteUser;
+use App\Models\User;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Fortify\Fortify;
 use Laravel\Jetstream\Jetstream;
 
 class JetstreamServiceProvider extends ServiceProvider
@@ -28,6 +30,14 @@ class JetstreamServiceProvider extends ServiceProvider
         $this->configurePermissions();
 
         Jetstream::deleteUsersUsing(DeleteUser::class);
+
+        // Only open up register page for first user now
+        Fortify::registerView(function() {
+            if (User::query()->count() > 0) {
+                abort(404);
+            }
+            return view('auth.register');
+        });
     }
 
     /**
