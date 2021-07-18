@@ -29,6 +29,11 @@ class Scrape extends Command
     protected $description = 'Scraping some houses, you know you know.';
 
     /**
+     * @var HousesService
+     */
+    protected HousesService $housesService;
+
+    /**
      * Create a new command instance.
      *
      * @return void
@@ -46,7 +51,6 @@ class Scrape extends Command
      */
     public function handle()
     {
-        $client = new GoutteClient();
 
         $estateId = $this->argument('estate');
         if ($estateId) {
@@ -60,66 +64,11 @@ class Scrape extends Command
                 ->get();
         }
 
-        $houses = [];
-
-        try {
-            foreach($estates as $estate) {
-                $this->info("Scraping $estate->id: $estate->name $estate->url");
-
-                $scraper = $client->request('GET', $estate->url);
-
-                $scraper
-                    ->filter($estate->selector_all)
-                    ->filter($estate->selector_each)
-                    ->each(function (Crawler $node) use ($estate, &$houses) {
-                        $estate_id = $estate->id;
-                        $this->info('Got id');
-
-                        $name = $node->filter($estate->selector_name)->text();
-                        $this->info('Got name '.$name);
-
-                        // Create realiable house link
-                        $link = $node->filter($estate->selector_link)->first()->attr('href');
-                        $link = UriResolver::resolve($link, $estate->url);
-
-                        $this->info('Got link '.$link);
-
-                        // Try <img> and style="background-image"
-                        try {
-                            // Try normal image
-                            $photo = $node->filter($estate->selector_photo)->image()->getUri();
-                        } catch (\Exception $e) {
-                            // Try style
-                            $photoStyle = $node->filter($estate->selector_photo)->attr("style");
-                            preg_match('/(?<=url\().+?(?=\))/', $photoStyle, $matches);
-                            $photo = UriResolver::resolve($matches[0], $estate->url);
-                        }
-                        $this->info('Got photo '.$photo);
-
-                        $description = implode('\n', $node->filter($estate->selector_description)->each(fn($node) => $node->text()));
-                        $this->info('Got description');
-
-                        $price = $node->filter($estate->selector_price)->text();
-                        $this->info('Got price');
-
-                        $raw = $node->html();
-                        $this->info('Got raw');
-
-                        // Push house values to array
-                        array_push($houses, compact('name', 'estate_id', 'description', 'photo', 'price', 'link', 'raw'));
-                    });
-            }
-        } catch(\Exception $e) {
-            $this->error('Something went wrong during scraping');
-            $this->error(':'.$e->getLine().' '.$e->getMessage());
-            return 1;
-        }
-
-        $this->info('Found '.count($houses).' houses.');
+        $houses = $this->housesService->scrape($estates);
 
         // Save if 'no-save' option is false
         if (!$this->option('no-save')) {
-            $this->info('Upserting...');
+            \Log::debug('Upserting...');
             House::query()
                 ->upsert($houses, ['name', 'description']);
         }
@@ -133,7 +82,7 @@ class Scrape extends Command
             // Send emails or smth
         }
 
-        $this->info('Scrape done :)');
+        \Log::debug('Scrape done :)');
 
         return 0;
     }
