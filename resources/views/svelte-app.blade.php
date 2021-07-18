@@ -8,9 +8,9 @@
 
     <link rel='icon' type='image/png' href='./favicon.ico'>
     <link rel='stylesheet' href='./global.css'>
-    <link rel='stylesheet' href='./css/svelte.css'>
+    <link rel="stylesheet" href="{{ mix('css/app.css') }}">
 
-    <script defer type='module' src='./svelte-app.js'></script>
+    <script defer type='module' src="{{ mix('js/svelte-app.js') }}"></script>
 </head>
 
 <body>

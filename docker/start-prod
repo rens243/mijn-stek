@@ -5,9 +5,9 @@ composer install --no-interaction --no-dev --optimize-autoloader
 
 # Maintenance mode
 php artisan down
-    # NPM install
-    npm install
-    npm run prod
+    # done in github actions now
+    # npm install
+    # npm run prod
 
     # Migrate database
     php artisan migrate --force

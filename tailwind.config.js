@@ -1,6 +1,10 @@
+// const defaultTheme = require('tailwindcss/defaultTheme');
+
 module.exports = {
-    darkMode: false, // or 'media' or 'class'
     theme: {
+        // fontFamily: {
+        //     sans: ['Nunito', ...defaultTheme.fontFamily.sans],
+        // },
         extend: {
             cursor: {
                 auto: 'auto',
@@ -12,15 +16,20 @@ module.exports = {
                 'not-allowed': 'not-allowed',
                 grab: 'grab',
                 grabbing: 'grabbing'
-            }
+            },
         },
     },
     variants: {
         extend: {
-            backgroundColor: ['active']
+            backgroundColor: ['active'],
+            opacity: ['disabled'],
         },
     },
-    plugins: [],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+        require('@tailwindcss/aspect-ratio'),
+    ],
     purge: {
         content: [
             './resources/**/*.blade.php',
@@ -28,9 +37,14 @@ module.exports = {
             './resources/**/*.js',
             './resources/**/*.svelte',
             './resources/**/*.vue',
+
+            './vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php',
+            './vendor/laravel/jetstream/**/*.blade.php',
+            './storage/framework/views/*.php',
+            './resources/views/**/*.blade.php',
         ],
         options: {
             safelist: ['/svelte-/', 'cursor-grabbing', 'cursor-grab'],
         },
     },
-}
+};

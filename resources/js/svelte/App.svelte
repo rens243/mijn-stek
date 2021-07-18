@@ -1,5 +1,5 @@
 <script>
-	import Tailwindcss from './Tailwindcss.svelte'
+	// import Tailwindcss from './Tailwindcss.svelte'
 
 	import Router from 'svelte-spa-router'
 	import routes from './routes.js'
@@ -10,7 +10,7 @@
 	import OldWindowManager from './components/OldWindowManager.svelte'
 </script>
 
-<Tailwindcss />
+<!-- <Tailwindcss />-->
 
 <!-- Window area in here -->
 <section class="fixed top-0 left-0 right-0 bottom-0">

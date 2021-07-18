@@ -25,14 +25,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // Send vaccine reminder
-//        $trashVaccineService = new TrashVaccineService();
-//        $schedule
-//            ->call(fn() =>
-//                $trashVaccineService->emailAvailableVaccineLocations()
-//            )->everyMinute()
-//            ->between('6:00', '20:00')
-//            ->days([1,2,3,4,5,6]); // No sundays
+        // Scrape houses
+        $schedule
+            ->call(fn() =>
+                \Artisan::call('house:scrape')
+            )->everyTenMinutes()
+            ->between('6:00', '23:00');
     }
 
     /**

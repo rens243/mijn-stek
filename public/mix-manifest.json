@@ -1,5 +1,5 @@
 {
-    "/main.css": "/main.css",
-    "/css/svelte.css": "/css/svelte.css",
-    "/svelte-app.js": "/svelte-app.js"
+    "/js/app.js": "/js/app.js",
+    "/js/svelte-app.js": "/js/svelte-app.js",
+    "/css/app.css": "/css/app.css"
 }
