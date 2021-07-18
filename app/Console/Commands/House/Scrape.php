@@ -3,13 +3,8 @@
 namespace App\Console\Commands\House;
 
 use App\Models\House\Estate;
-use App\Models\House\House;
-use App\Models\User;
 use App\Services\HousesService;
-use Goutte\Client as GoutteClient;
 use Illuminate\Console\Command;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\DomCrawler\UriResolver;
 
 
 class Scrape extends Command

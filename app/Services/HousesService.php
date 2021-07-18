@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Models\House\Estate;
 use App\Models\House\House;
+use App\Models\User;
 use GuzzleHttp\Client as GuzzleClient;
 use GuzzleHttp\Exception\RequestException;
 use GuzzleHttp\Pool;
