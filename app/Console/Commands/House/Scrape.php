@@ -51,7 +51,6 @@ class Scrape extends Command
      */
     public function handle()
     {
-
         $estateId = $this->argument('estate');
         if ($estateId) {
             $estates = Estate::query()
@@ -64,25 +63,9 @@ class Scrape extends Command
                 ->get();
         }
 
-        $houses = $this->housesService->scrape($estates);
+        $this->housesService->scrape($estates, !$this->option('no-save'), !$this->option('no-mail'));
 
-        // Save if 'no-save' option is false
-        if (!$this->option('no-save')) {
-            \Log::debug('Upserting...');
-            House::query()
-                ->upsert($houses, ['name', 'description']);
-        }
-
-        // Send emails
-        if (!$this->option('no-mail')) {
-            $users = User::query()
-                ->where('email_houses', '=', true)
-                ->get();
-
-            // Send emails or smth
-        }
-
-        \Log::debug('Scrape done :)');
+        \Log::debug('Scrape command done :)');
 
         return 0;
     }

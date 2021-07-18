@@ -6,35 +6,84 @@ namespace App\Services;
 
 use App\Models\House\Estate;
 use App\Models\House\House;
-use App\Models\User;
+use GuzzleHttp\Client as GuzzleClient;
+use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Pool;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
 use Illuminate\Database\Eloquent\Collection;
-use Symfony\Component\BrowserKit\HttpBrowser as GoutteClient;
 use Symfony\Component\DomCrawler\Crawler;
 use Symfony\Component\DomCrawler\UriResolver;
 
 class HousesService
 {
-    /**
-     * @param Collection|Estate $estate
-     * @return array
-     * @throws \Exception
-     */
-    public function scrape(Collection|Estate $estates)
-    {
-        $client = new GoutteClient();
 
-        $houses = [];
+    /**
+     *
+     */
+    protected function saveScrapedHouses($houses)
+    {
+        \Log::debug('Upserting...');
+        House::query()
+            ->upsert($houses, ['name', 'description']);
+    }
+
+    /**
+     *
+     */
+    protected function emailScrapedHouses()
+    {
+        // Send emails or smth
+        $users = User::query()
+            ->where('email_houses', '=', true)
+            ->get();
+
+        // Send emails or smth
+    }
+
+    /**
+     * Scrape estates for new houses
+     *
+     * @param Collection|Estate $estate
+     * @return boolean
+     */
+    public function scrape(Collection|Estate $estates, bool $save = false, bool $email = false)
+    {
+        // Create guzzle client
+        $guzzleClient = new GuzzleClient();
 
         // Create collection out of estates if needed
         $estates = collect($estates);
 
-        try {
+        // Create requests generator
+        $requests = function() use ($estates) {
             foreach($estates as $estate) {
-                \Log::debug("Scraping $estate->id: $estate->name $estate->url");
+                yield new Request('GET', $estate->url);
+            }
+        };
 
-                $scraper = $client->request('GET', $estate->url);
+        // Initialize houses array
+        $houses = [];
 
-                $scraper
+        // Guzzle async pool
+        $pool = new Pool($guzzleClient, $requests(), [
+            'fulfilled' => function (Response $response, $index) use ($estates, $houses) {
+                // This is delivered each successful response
+
+                // Current estate being crawled
+                $estate = $estates[$index];
+
+                \Log::debug('fulfilled '.$estate->url);
+
+                // Create crawler from response
+                $crawler = new Crawler(null, $estates[$index]->url);
+                $crawler->addContent(
+                    (string) $response->getBody(),
+                    $response->getHeader('Content-Type')[0]
+                );
+
+                // Get all houses
+                $crawler
                     ->filter($estate->selector_all)
                     ->filter($estate->selector_each)
                     ->each(function (Crawler $node) use ($estate, &$houses) {
@@ -62,7 +111,11 @@ class HousesService
                         }
                         \Log::debug('Got photo '.$photo);
 
-                        $description = implode('\n', $node->filter($estate->selector_description)->each(fn($node) => $node->text()));
+                        $description = implode(
+                            '\n',
+                            $node->filter($estate->selector_description)
+                                ->each(fn($node) => $node->text())
+                        );
                         \Log::debug('Got description');
 
                         $price = $node->filter($estate->selector_price)->text();
@@ -74,16 +127,31 @@ class HousesService
                         // Push house values to array
                         array_push($houses, compact('name', 'estate_id', 'description', 'photo', 'price', 'link', 'raw'));
                     });
-            }
-        } catch(\Exception $e) {
-            $this->error('Something went wrong during scraping');
-            $this->error(':'.$e->getLine().' '.$e->getMessage());
-            throw $e;
+            },
+            'rejected' => function (RequestException $reason, $index) {
+                // this is delivered each failed request
+                \Log::error('rejected :'.$reason->getLine().' '.$reason->getMessage());
+            },
+        ]);
+
+        // Initiate the transfers and create a promise
+        $promise = $pool->promise();
+
+        // Force the pool of requests to complete.
+        $promise->wait();
+
+        // Save houses in database
+        if($save) {
+            $this->saveScrapedHouses($houses);
         }
 
-        \Log::debug('Found '.count($houses).' houses.');
-        return $houses;
+        // Email if needed
+        if ($email) {
+            $this->emailScrapedHouses();
+        }
 
+        // Return new houses, ready to be upserted.
+        return true;
     }
 
 }
