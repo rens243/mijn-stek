@@ -26,6 +26,8 @@ services:
       MYSQL_PASSWORD: '${DB_PASSWORD}'
     volumes:
       - 'stekmysql:/var/lib/mysql'
+    ports:
+      - "127.0.0.1:3306:3306"
     networks:
       - steknet
     healthcheck:
