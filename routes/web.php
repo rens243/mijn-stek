@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\EstateController;
+use App\Http\Controllers\HouseController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,6 +28,17 @@ Route::get('/bcae', function () {
     return redirect('https://www.instagram.com/bread.clips.are.everywhere/');
 });
 
-Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::middleware(['auth:sanctum', 'verified'])->group(function() {
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+
+    // Houses
+    Route::prefix('houses/')->name('houses.')->group(function () {
+        Route::resource('estate', EstateController::class);
+    });
+    Route::resource('houses', HouseController::class)->only([
+        'index',
+    ]);
+
+});

@@ -34,6 +34,7 @@
         "webpack": "^5.37.0"
     },
     "dependencies": {
+        "@tailwindcss/aspect-ratio": "^0.2.1",
         "laravel-mix-svelte": "github:wewowweb/laravel-mix-svelte"
     }
 }

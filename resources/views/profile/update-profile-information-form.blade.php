@@ -65,6 +65,14 @@
             <x-jet-input id="email" type="email" class="mt-1 block w-full" wire:model.defer="state.email" />
             <x-jet-input-error for="email" class="mt-2" />
         </div>
+
+        <!-- Email houses -->
+        <div class="col-span-6 sm:col-span-4 flex">
+            <x-jet-label for="email_houses" value="Email me new houses" />
+            <x-jet-input id="email_houses" type="checkbox" class="ml-1 mt-1 block" wire:model.defer="state.email_houses" />
+            <x-jet-input-error for="email_houses" class="mt-2" />
+        </div>
+
     </x-slot>
 
     <x-slot name="actions">

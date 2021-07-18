@@ -25,7 +25,11 @@ module.exports = {
             opacity: ['disabled'],
         },
     },
-    plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
+    plugins: [
+        require('@tailwindcss/forms'),
+        require('@tailwindcss/typography'),
+        require('@tailwindcss/aspect-ratio'),
+    ],
     purge: {
         content: [
             './resources/**/*.blade.php',
