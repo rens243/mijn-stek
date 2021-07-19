@@ -24,7 +24,7 @@ class HousesService
      */
     protected function saveScrapedHouses($houses)
     {
-        \Log::debug('Upserting...');
+        \Log::debug('Upserting... '.count($houses));
         House::query()
             ->upsert($houses, ['name', 'description']);
     }
@@ -68,7 +68,7 @@ class HousesService
 
         // Guzzle async pool
         $pool = new Pool($guzzleClient, $requests(), [
-            'fulfilled' => function (Response $response, $index) use ($estates, $houses) {
+            'fulfilled' => function (Response $response, $index) use ($estates, &$houses) {
                 // This is delivered each successful response
 
                 // Current estate being crawled
