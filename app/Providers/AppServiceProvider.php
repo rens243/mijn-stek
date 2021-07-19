@@ -14,7 +14,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        // Force jetstream to use https
+        // see: https://stackoverflow.com/questions/67184333/laravel-jetstream-fortify-force-ssl-or-https
+        if (App::environment('production')) {
+            $this->app['request']->server->set('HTTPS', true);
+        }
     }
 
     /**
