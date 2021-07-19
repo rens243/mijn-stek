@@ -23,7 +23,7 @@ jobs:
           git config --local user.name "GitHub Action"
           git checkout -B master
           git add -f public/
-          git commit -m "Build front-end assets"
+          git commit --allow-empty -m "Build front-end assets"
           git push -f origin master
       - name: Deploy to production
         uses: appleboy/ssh-action@master
