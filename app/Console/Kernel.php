@@ -26,11 +26,11 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Scrape houses
-        $schedule
-            ->call(fn() =>
-                \Artisan::call('house:scrape')
-            )->everyTenMinutes()
-            ->between('6:00', '23:00');
+//        $schedule
+//            ->call(fn() =>
+//                \Artisan::call('house:scrape')
+//            )->everyTenMinutes()
+//            ->between('6:00', '23:00');
     }
 
     /**
