@@ -143,12 +143,12 @@ class HousesService
 
         // Save houses in database
         if($save) {
-            $this->saveScrapedHouses($houses);
+            return $this->saveScrapedHouses($houses);
         }
 
         // Email if needed
         if ($email) {
-            $this->emailScrapedHouses();
+            return $this->emailScrapedHouses();
         }
 
         // Return new houses, ready to be upserted.
