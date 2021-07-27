@@ -2,9 +2,11 @@
 
 namespace App\Http\Livewire\Estate;
 
+use App\Exceptions\HouseParseException;
 use App\Http\Controllers\EstateController;
 use App\Http\Requests\Estate as EstateRequest;
 use App\Models\House\Estate;
+use App\Services\HousesService;
 use Livewire\Component;
 
 class Edit extends Component
@@ -30,20 +32,21 @@ class Edit extends Component
     /**
      * Test if estate is working
      */
-    public function test()
+    public function test(HousesService $housesService)
     {
-        $exitCode = \Artisan::call('house:scrape', [
-            'estate' => $this->estate->id,
-            '--no-save' => true,
-            '--no-mail' => true
-        ]);
+        // Save estate if needed
+        if ($this->estate->isDirty()) $this->estate->save();
 
-        if ($exitCode !== 1) {
-            $this->emit('alert', 'Command successful.');
-            return;
+        try {
+            $houses = $housesService->scrape($this->estate, false, false);
+            $countHouses = count($houses);
+            $this->emit('alert', "Command ran successfully. Found $countHouses houses.");
+        } catch (HouseParseException $e){
+            $alertText = "Command failed: ".$e->getMessage();
+            $this->emit('alert', $alertText);
+        } catch (\Exception $e) {
+            $this->emit('alert', 'Command failed.');
         }
-
-        $this->emit('alert', 'Command did not run successfully.');
     }
 
     public function update()

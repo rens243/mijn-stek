@@ -4,6 +4,7 @@
 namespace App\Services;
 
 
+use App\Exceptions\HouseParseException;
 use App\Models\House\Estate;
 use App\Models\House\House;
 use App\Models\User;
@@ -27,12 +28,14 @@ class HousesService
         \Log::debug('Upserting...');
         House::query()
             ->upsert($houses, ['name', 'description']);
+
+        return $houses;
     }
 
     /**
      *
      */
-    protected function emailScrapedHouses()
+    protected function emailScrapedHouses($houses)
     {
         // Send emails or smth
         $users = User::query()
@@ -40,21 +43,25 @@ class HousesService
             ->get();
 
         // Send emails or smth
+        return $houses;
     }
 
     /**
      * Scrape estates for new houses
      *
-     * @param Collection|Estate $estate
-     * @return boolean
+     * @param Collection|Estate $estates
+     * @param bool $save
+     * @param bool $email
+     * @return array
+     *@throws HouseParseException
      */
     public function scrape(Collection|Estate $estates, bool $save = false, bool $email = false)
     {
         // Create guzzle client
         $guzzleClient = new GuzzleClient();
 
-        // Create collection out of estates if needed
-        $estates = collect($estates);
+        // Make sure estate is in collection
+        $estates = collect([$estates])->flatten();
 
         // Create requests generator
         $requests = function() use ($estates) {
@@ -88,42 +95,64 @@ class HousesService
                     ->filter($estate->selector_all)
                     ->filter($estate->selector_each)
                     ->each(function (Crawler $node) use ($estate, &$houses) {
-                        $estate_id = $estate->id;
-                        \Log::debug('Got id');
+                        try {
+                            $estate_id = $estate->id;
+                        } catch (\Exception $e) {
+                            throw new HouseParseException('Could not get id.');
+                        }
 
-                        $name = $node->filter($estate->selector_name)->text();
-                        \Log::debug('Got name '.$name);
+                        try {
+                            $name = $node->filter($estate->selector_name)->text();
+                        } catch (\Exception $e) {
+                            throw new HouseParseException('Could not get name.');
+                        }
 
                         // Create realiable house link
-                        $link = $node->filter($estate->selector_link)->first()->attr('href');
-                        $link = UriResolver::resolve($link, $estate->url);
-
-                        \Log::debug('Got link '.$link);
-
-                        // Try <img> and style="background-image"
                         try {
-                            // Try normal image
-                            $photo = $node->filter($estate->selector_photo)->image()->getUri();
+                            $link = $node->filter($estate->selector_link)->first()->attr('href');
+                            $link = UriResolver::resolve($link, $estate->url);
                         } catch (\Exception $e) {
-                            // Try style
-                            $photoStyle = $node->filter($estate->selector_photo)->attr("style");
-                            preg_match('/(?<=url\().+?(?=\))/', $photoStyle, $matches);
-                            $photo = UriResolver::resolve($matches[0], $estate->url);
+                            throw new HouseParseException('Could not get link.');
                         }
-                        \Log::debug('Got photo '.$photo);
 
-                        $description = implode(
-                            '\n',
-                            $node->filter($estate->selector_description)
-                                ->each(fn($node) => $node->text())
-                        );
-                        \Log::debug('Got description');
+                        try {
+                            // Try <img> and style="background-image"
+                            try {
+                                // Try normal image
+                                $photo = $node->filter($estate->selector_photo)->image()->getUri();
+                            } catch (\Exception $e) {
+                                // Try style
+                                $photoStyle = $node->filter($estate->selector_photo)->attr("style");
+                                preg_match('/(?<=url\().+?(?=\))/', $photoStyle, $matches);
+                                $photo = UriResolver::resolve($matches[0], $estate->url);
+                            }
+                        } catch (\Exception $e) {
+                            throw new HouseParseException('Could not get photo.');
+                        }
 
-                        $price = $node->filter($estate->selector_price)->text();
-                        \Log::debug('Got price');
+                        try {
+                            $description = implode(
+                                '\n',
+                                $node->filter($estate->selector_description)
+                                    ->each(fn($node) => $node->text())
+                            );
+                        } catch (\Exception $e) {
+                            throw new HouseParseException('Could not get description.');
+                        }
 
-                        $raw = $node->html();
-                        \Log::debug('Got raw');
+                        try {
+                            $price = $node->filter($estate->selector_price)->text();
+                            \Log::debug('Got price');
+                        } catch (\Exception $e) {
+                            throw new HouseParseException('Could not get price.');
+                        }
+
+                        try {
+                            $raw = $node->html();
+                            \Log::debug('Got raw');
+                        } catch (\Exception $e) {
+                            throw new HouseParseException('Could not get raw.');
+                        }
 
                         // Push house values to array
                         array_push($houses, compact('name', 'estate_id', 'description', 'photo', 'price', 'link', 'raw'));
@@ -143,16 +172,16 @@ class HousesService
 
         // Save houses in database
         if($save) {
-            return $this->saveScrapedHouses($houses);
+            $this->saveScrapedHouses($houses);
+
+            // Email if needed
+            if ($email) {
+                $this->emailScrapedHouses($houses);
+            }
         }
 
-        // Email if needed
-        if ($email) {
-            return $this->emailScrapedHouses();
-        }
-
-        // Return new houses, ready to be upserted.
-        return true;
+        // Return found houses.
+        return $houses;
     }
 
 }
